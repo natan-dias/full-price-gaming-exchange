@@ -11,10 +11,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Install requirements
-      run: pip install -r scripts/codecov-requirements.txt
+      run: pip install -r codecov-requirements.txt
     - name: Run tests and collect coverage
       run: |
-        cd scripts/tests
+        cd tests
         pytest --cov .
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v4.0.1
