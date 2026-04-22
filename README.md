@@ -17,7 +17,7 @@ Enter the price of anything — a hamburger, a coffee, a flight ticket — selec
 
 **Example:** a R$ 20 hamburger = **0.05 FPG**. You're safe to buy it.
 
-## Running locally
+## Running locally - Python Backend
 
 The repo includes a Python script that serves the app and exposes a `/calculate` API endpoint, useful for local development and testing.
 
@@ -27,12 +27,12 @@ python3 fpg.py
 
 Then open [http://localhost:8000](http://localhost:8000).
 
-To stop the server: `Ctrl + C`. If you get an "address already in use" error, run `pkill -f fpg.py` first.
+To stop the server: `Ctrl + C`.
 
 ## GitHub Pages deployment
 
 The live site uses only `index.html` — all calculation logic runs in JavaScript, so no server is needed. GitHub Pages serves static files for free, making it the simplest zero-config deployment option.
 
-The Python script and its `/calculate` endpoint are kept in the repo for local testing and as a foundation for writing automated tests in the future.
+The Python script and its `/calculate` endpoint are kept in the repo for local testing, study and as a foundation for writing automated tests in the future.
 
 To enable GitHub Pages: go to **Settings → Pages → Source**, select your main branch and root folder.
