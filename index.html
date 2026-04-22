@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Full Price Game Calculator</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a2e;
+            color: #eee;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: #16213e;
+            border: 1px solid #0f3460;
+            border-radius: 10px;
+            padding: 32px;
+            width: 380px;
+            position: relative;
+        }
+
+        .lang-toggle {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            display: flex;
+            gap: 4px;
+        }
+
+        .lang-toggle button {
+            width: auto;
+            padding: 4px 10px;
+            font-size: 0.75rem;
+            background: #0f3460;
+            border-radius: 4px;
+        }
+
+        .lang-toggle button.active {
+            background: #e94560;
+        }
+
+        .lang-toggle button:hover { background: #c73652; }
+
+        h1 {
+            text-align: center;
+            font-size: 1.4rem;
+            margin-bottom: 6px;
+            color: #e94560;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #aaa;
+            margin-bottom: 24px;
+        }
+
+        .prices {
+            background: #0f3460;
+            border-radius: 6px;
+            padding: 10px 14px;
+            margin-bottom: 20px;
+            font-size: 0.82rem;
+            color: #ccc;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .prices span { color: #e94560; font-weight: bold; }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+            color: #aaa;
+        }
+
+        select, input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #0f3460;
+            border-radius: 6px;
+            background: #1a1a2e;
+            color: #eee;
+            font-size: 1rem;
+            margin-bottom: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #e94560;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        button:hover { background: #c73652; }
+
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1rem;
+            min-height: 24px;
+        }
+
+        .result .value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #e94560;
+        }
+
+        .result .label {
+            font-size: 0.85rem;
+            color: #aaa;
+            margin-top: 4px;
+        }
+
+        .result .message {
+            margin-top: 12px;
+            font-size: 0.9rem;
+            font-style: italic;
+            color: #ffd700;
+        }
+
+        .error { color: #ff6b6b; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="lang-toggle">
+            <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+            <button id="btn-pt" onclick="setLang('pt')">PT</button>
+        </div>
+
+        <h1 data-i18n="title"></h1>
+        <p class="subtitle" data-i18n="subtitle"></p>
+
+        <div class="prices">
+            <div>BRL <span>R$ 399</span></div>
+            <div>USD <span>$ 70</span></div>
+            <div>EUR <span>€ 70</span></div>
+        </div>
+
+        <label for="currency" data-i18n="labelCurrency"></label>
+        <select id="currency">
+            <option value="BRL" data-i18n="optBRL"></option>
+            <option value="USD" data-i18n="optUSD"></option>
+            <option value="EUR" data-i18n="optEUR"></option>
+        </select>
+
+        <label for="amount" data-i18n="labelAmount"></label>
+        <input type="number" id="amount" min="0" step="0.01">
+
+        <button id="btn-convert" onclick="calculate()"></button>
+
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        const i18n = {
+            en: {
+                title: 'Full Price Game Calculator',
+                subtitle: 'How many full-price games is that worth?',
+                labelCurrency: 'Currency',
+                labelAmount: 'Price of the item',
+                optBRL: 'BRL — Brazilian Real',
+                optUSD: 'USD — US Dollar',
+                optEUR: 'EUR — Euro',
+                btnConvert: 'Convert',
+                placeholder: 'e.g. 20',
+                errorAmount: 'Please enter a valid amount.',
+                errorServer: 'Could not reach the server.',
+                resultLabel: (amount, currency, result) => `${amount} ${currency} = ${result} Full Price Game(s)`,
+                msgBelow: 'This product not even cost One game, so you should be fine to spend.',
+                msgAbove: 'This product costs MORE than one game. Are you sure you are going to spend that?',
+            },
+            pt: {
+                title: 'Full Price Game Calculator',
+                subtitle: 'Quantos jogos isso vale?',
+                labelCurrency: 'Moeda',
+                labelAmount: 'Preço do item',
+                optBRL: 'BRL — Real Brasileiro',
+                optUSD: 'USD — Dólar Americano',
+                optEUR: 'EUR — Euro',
+                btnConvert: 'Converter',
+                placeholder: 'ex: 20',
+                errorAmount: 'Por favor insira um valor válido.',
+                errorServer: 'Não foi possível conectar ao servidor.',
+                resultLabel: (amount, currency, result) => `${amount} ${currency} = ${result} Jogo(s) de Preço Cheio`,
+                msgBelow: 'Esse produto não custa nem um jogo, então pode gastar sem culpa.',
+                msgAbove: 'Esse produto custa MAIS do que um jogo. Tem certeza que vai gastar isso?',
+            },
+        };
+
+        let lang = 'en';
+
+        function setLang(l) {
+            lang = l;
+            document.documentElement.lang = l;
+            document.getElementById('btn-en').classList.toggle('active', l === 'en');
+            document.getElementById('btn-pt').classList.toggle('active', l === 'pt');
+
+            const t = i18n[l];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key] !== undefined) el.textContent = t[key];
+            });
+            document.getElementById('btn-convert').textContent = t.btnConvert;
+            document.getElementById('amount').placeholder = t.placeholder;
+
+            document.getElementById('result').innerHTML = '';
+        }
+
+        function calculate() {
+            const currency = document.getElementById('currency').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+            const resultEl = document.getElementById('result');
+            const t = i18n[lang];
+
+            if (isNaN(amount) || amount <= 0) {
+                resultEl.innerHTML = `<span class="error">${t.errorAmount}</span>`;
+                return;
+            }
+
+            const prices = { BRL: 399, USD: 70, EUR: 70 };
+            const result = Math.round((amount / prices[currency]) * 100) / 100;
+            const message = result < 1 ? t.msgBelow : t.msgAbove;
+            resultEl.innerHTML = `
+                <div class="value">${result} FPG</div>
+                <div class="label">${t.resultLabel(amount, currency, result)}</div>
+                <div class="message">${message}</div>
+            `;
+        }
+
+        setLang('en');
+    </script>
+</body>
+</html>
