@@ -135,6 +135,28 @@
         }
 
         .error { color: #ff6b6b; font-size: 0.9rem; }
+
+        footer {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid #0f3460;
+            text-align: center;
+            font-size: 0.78rem;
+            color: #aaa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        footer a {
+            color: #aaa;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        footer a:hover svg { fill: #FF0000; }
     </style>
 </head>
 <body>
@@ -166,6 +188,15 @@
         <button id="btn-convert" onclick="calculate()"></button>
 
         <div id="result" class="result"></div>
+
+        <footer>
+            <span>Developed by Natan | Velho Jogador</span>
+            <a href="https://youtube.com/@velhotejogador" target="_blank" rel="noopener" aria-label="YouTube channel">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#aaa">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+            </a>
+        </footer>
     </div>
 
     <script>
