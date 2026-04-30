@@ -36,3 +36,4 @@ The live site uses only `index.html` — all calculation logic runs in JavaScrip
 The Python script and its `/calculate` endpoint are kept in the repo for local testing, study and as a foundation for writing automated tests in the future.
 
 To enable GitHub Pages: go to **Settings → Pages → Source**, select your main branch and root folder.
+
